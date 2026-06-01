@@ -51,21 +51,19 @@ def main():
     # PASUL 2: Încărcare Date
     print(">>> PASUL 2: Încărcare date hardware")
     ASCAD_PATH = "ASCAD.h5"
-    traces, plaintexts, real_key = extract_poi(ASCAD_PATH, num_traces=200, time_window=(45000, 45100))
+    traces, plaintexts, real_key = extract_poi(ASCAD_PATH, num_traces=1000, time_window=(0, 700))
     print(f"Cheia reală (Byte 0): {hex(real_key[0])}")
     
     # PASUL 3: Filtrare Truncated SVD Custom
     print("\n>>> PASUL 3: Filtrarea SVD (Truncated SVD)")
     U, S, Vt = SVD_Custom(traces)
     
-    # --- FIX APLICAT: TRUNCATED SVD ---
-    # Eliminăm \sigma_0 (ceasul). Păstrăm DOAR indexul 1 (semnalul clar).
-    # Nu păstrăm indexurile 2 și 3, ele sunt zgomot termic.
+    # --- TRUNCATED SVD ---
     print("Curățare matrice (Eliminare Macro-Zgomot)...")
-    indices_to_keep = [1] 
+    indices_to_keep = list(range(1, 16))
     
     # Reconstruim A_clean
-    A_clean = np.zeros_like(traces)
+    A_clean = np.zeros(traces.shape, dtype=np.float64)
     for idx in indices_to_keep:
         if idx < len(S):
             A_clean += S[idx] * np.outer(U[:, idx], Vt[idx, :])
