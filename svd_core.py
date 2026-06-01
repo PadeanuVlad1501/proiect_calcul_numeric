@@ -72,13 +72,16 @@ def SVD_Custom(A):
     Metodă: Diagonalizarea matricei de covarianță M = A^T * A.
     Returnează: U (vectori singulari stângi), S (valori singulare), Vt (vectori drepți transpuși).
     """
+
+    A = A.astype(np.float64)
+
     m, n = A.shape
     M = A.T @ A  # Matrice simetrică pozitiv semidefinită
     
     Q0, T0 = Tridiag_Householder(M)
     D, V = QR_iteration(M, Q0)
-    
-    eigenvalues = np.diag(D)
+
+    eigenvalues = np.diag(D).copy()
     eigenvalues[eigenvalues < 0] = 0  # Evităm nan-uri din erori numerice FP
     
     # Sortare descrescătoare
