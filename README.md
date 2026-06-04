@@ -1,4 +1,4 @@
-# Atac Diferențial de Putere (DPA) folosind SVD Trunchiat
+# Atac Diferențial de Putere (DPA) folosind SVD Redus
 
 Acest proiect implementează un atac de canal secundar de tip DPA asupra algoritmului de criptare AES-128, utilizând o abordare de filtrare a semnalului prin Descompunerea la Valori Singulare Redusă (Truncated SVD / SVD Redus). 
 
